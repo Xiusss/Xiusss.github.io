@@ -1,143 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Fabrizio Sulpizio - VR Design & Developer</title>
-<style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('docs/assets/FlowerHD.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    color: #cccccc;
-    position: relative;
-}
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('docs/assets/FlowerHD.png'); /* full-page background */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #cccccc;
+        }
 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Global black transparency */
-    z-index: 0;
-    pointer-events: none;
-}
+        /* Overlay for entire page */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* page-wide dark overlay */
+            z-index: -1;
+        }
 
-header,
-section,
-footer {
-    position: relative;
-    z-index: 1; /* Ensure content appears above overlay */
-}
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            position: relative;
+            color: #f0f0f0;
+        }
 
-header {
-    text-align: center;
-    padding: 50px 0;
-    color: #f0f0f0;
-}
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
 
-header h1,
-header h2 {
-    color: #f0f0f0;
-}
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #f0f0f0;
+        }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-}
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-h2 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
-    color: #f0f0f0;
-}
+        li {
+            margin-bottom: 5px;
+        }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
+        section {
+            text-align: center;
+            background-color: rgba(17, 17, 17, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+            margin: 20px;
+        }
 
-li {
-    margin-bottom: 5px;
-}
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #999999;
+            background-color: rgba(17, 17, 17, 0.8);
+        }
 
-section {
-    text-align: center;
-    padding: 30px;
-    border-radius: 10px;
-    margin: 20px 0;
-}
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
 
-footer {
-    text-align: center;
-    padding: 20px 0;
-    color: #999999;
-}
+        a {
+            color: #8e44ad;
+            text-decoration: none;
+        }
 
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-    margin: 0 auto;
-}
+        a:hover {
+            text-decoration: underline;
+        }
 
-a {
-    color: #8e44ad;
-    text-decoration: none;
-}
+        /* Responsive iframe container */
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+        }
 
-a:hover {
-    text-decoration: underline;
-}
-</style>
+        .iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
 
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            section {
+                padding: 20px 10px;
+                margin: 10px;
+            }
+
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Fabrizio Sulpizio</h1>
         <h2>Software Engineer - VR Designer & Developer</h2>
     </header>
+
     <section>
-    <h2>About Me</h2>
-    <p>
-Hey there! I'm Fabrizio Sulpizio, a computer engineer with a passion that pulses in pixels and a heart that beats in binary. From the earliest lines of code I wrote, I found myself drawn to the enchanting world of games—a space where technology dances with imagination.
+        <h2>About Me</h2>
+        <p>
+            Hey there! I'm Fabrizio Sulpizio, a computer engineer with a passion that pulses in pixels and a heart that beats in binary.
+            From the earliest lines of code I wrote, I found myself drawn to the enchanting world of games—a space where technology dances with imagination.
 
-For me, games are more than just entertainment; they're immersive experiences, canvases waiting to be filled with innovation and emotion. With a foundation in computer engineering, I seamlessly blend the technical with the artistic, crafting experiences that linger long after the controller is set down.
+            For me, games are more than just entertainment; they're immersive experiences, canvases waiting to be filled with innovation and emotion.
+            With a foundation in computer engineering, I seamlessly blend the technical with the artistic, crafting experiences that linger long after the controller is set down.
 
-Venturing beyond the ordinary, I've delved into the realm of Virtual Reality, shaping experiences that go beyond entertainment. My expertise in serious game development through VR reflects my commitment to harnessing the power of games for education, training, and social impact. In the worlds I create, learning becomes an adventure, and growth is gamified.
+            Venturing beyond the ordinary, I've delved into the realm of Virtual Reality, shaping experiences that go beyond entertainment.
+            My expertise in serious game development through VR reflects my commitment to harnessing the power of games for education, training, and social impact.
 
-Now, I'm on a mission to turn my passion into a profession. I don't just want to be a game designer or developer; I aim to be a storyteller who crafts worlds that captivate, challenge, and inspire. It's not just about writing code for me; it's about weaving narratives that resonate, characters that breathe, challenges that spark growth. And games that are worth to play. 
+            Now, I'm on a mission to turn my passion into a profession. I don't just want to be a game designer or developer; I aim to be a storyteller who crafts worlds that captivate, challenge, and inspire.
+            Let the game begin!
+        </p>
+    </section>
 
-Let's gather up on this epic quest, where lines of code become spells, and algorithms shape destinies. If you're seeking a game designer or developer who doesn't just play games but lives and breathes them, I'm ready. Let the game begin!</p>
-</section>
- 
-  <section>
+    <section>
         <h2>Portfolio</h2>
-    <p>You can see my most recent projects here:</p>
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQnjDn0jJQXSFy4s-IIWBsGydH_nwkZKeMUuNvlt5FHPa4ClKelE0Z-PTBD3Z4PBw/pubembed?start=false&loop=false&delayms=5000" frameborder="0" width="960" height="540" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>    </section>
+        <p>You can see my most recent projects here:</p>
+        <div class="iframe-container">
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQnjDn0jJQXSFy4s-IIWBsGydH_nwkZKeMUuNvlt5FHPa4ClKelE0Z-PTBD3Z4PBw/pubembed?start=false&loop=false&delayms=5000" allowfullscreen></iframe>
+        </div>
+    </section>
 
     <section>
         <h2>Skills</h2>
         <ul>
-            <li> Virtual and Augmented Reality design & development</li>
+            <li>Virtual and Augmented Reality design & development</li>
             <li>Game Design & Gamification</li>
             <li>Unity</li>
             <li>Blender</li>
             <li>C</li>
             <li>C#</li>
-
         </ul>
     </section>
+
     <footer>
-        <p>Contact: fabrizio.sulpizio18@gmail.com | <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a> <!-- | Portfolio: yourportfolio.com</p> -->
+        <p>
+            Contact: fabrizio.sulpizio18@gmail.com |
+            <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
+        </p>
     </footer>
 </body>
 </html>
