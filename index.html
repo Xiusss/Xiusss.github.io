@@ -88,7 +88,7 @@
         .iframe-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%; /* Default 16:9 for mobile */
             height: 0;
             overflow: hidden;
         }
@@ -125,9 +125,17 @@
             }
         }
 
+        @media (min-width: 769px) {
+            .iframe-container {
+                width: 60%;
+                margin: 0 auto;
+                padding-bottom: 33.75%; /* 60% width with 16:9 ratio */
+            }
+        }
+
         @media (min-width: 769px) and (max-width: 1024px) {
             .iframe-container {
-                padding-bottom: 70%;
+                padding-bottom: 42%; /* Slightly taller on tablets */
             }
         }
     </style>
@@ -164,7 +172,7 @@
     </section>
 
     <section>
-        <h2>Skills</h2>
+        <h2>Hard skills</h2>
         <ul>
             <li>Virtual and Augmented Reality design & development</li>
             <li>Game Design & Gamification</li>
@@ -175,11 +183,22 @@
         </ul>
     </section>
 
+    <section>
+        <h2>Soft skills</h2>
+        <ul>
+            <li>Leadership</li>
+            <li>Empathy</li>
+            <li>Conflict management</li>
+            <li>Time Management</li>
+            <li>Public speaking</li>
+            <li>Problem solving</li>
+        </ul>
+    </section>
+
     <footer>
         <p>
             Contact: fabrizio.sulpizio18@gmail.com |
             <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
         </p>
     </footer>
-</body>
-</html>
+</body
