@@ -140,14 +140,6 @@
     .card-stat { padding: 18px 0; border-bottom: 1px solid var(--border); }
     .card-stat:last-of-type { border-bottom: none; }
     .card-stat:first-of-type { padding-top: 0; }
-    .card-stat-link {
-      display: block; text-decoration: none; color: inherit;
-      transition: background 0.2s, padding-left 0.2s;
-      border-radius: 2px; margin: 0 -8px; padding-left: 8px; padding-right: 8px;
-    }
-    .card-stat-link:hover { background: var(--accent-light); padding-left: 14px; }
-    .card-stat-link:hover .stat-val { color: var(--accent); }
-    .card-stat-link:hover .stat-key::after { content: ' →'; }
     .stat-val {
       font-family: var(--serif); font-size: 1.9rem; font-weight: 700;
       line-height: 1; color: var(--accent); margin-bottom: 4px;
@@ -166,38 +158,6 @@
       transition: background 0.2s;
     }
     .contact-pill:hover { background: rgba(29,78,216,0.14); }
-
-
-    /* HERO AVATAR */
-    .hero-avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      overflow: hidden;
-      border: 3px solid var(--border);
-      background: var(--accent-light);
-      position: relative;
-      margin-bottom: 28px;
-      flex-shrink: 0;
-    }
-    .hero-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
-    .hero-avatar-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--ink-faint);
-    }
-    .hero-avatar img:not([style*="display: none"]) ~ .hero-avatar-placeholder {
-      display: none;
-    }
 
     @keyframes rise {
       from { opacity: 0; transform: translateY(20px); }
@@ -430,12 +390,6 @@
     <div class="wrap">
       <div class="hero-grid">
         <div>
-          <div class="hero-avatar">
-            <img src="photo.png" alt="Fabrizio Sulpizio" onerror="this.style.display='none'" />
-            <div class="hero-avatar-placeholder">
-              <svg width="84" height="84" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-            </div>
-          </div>
           <div class="hero-tag">Extended Reality Research Assistant</div>
           <h1 class="hero-name">Fabrizio<br/>Sulpizio</h1>
           <p class="hero-role">Computer Engineer · XR Designer & Developer · Researcher</p>
@@ -443,25 +397,25 @@
             Inquisitive engineer passionate about the intersection of technology and human experience. I design and build Extended Reality systems — for healthcare, rehabilitation, culture, and the arts — that create meaningful, measurable change.
           </p>
           <div class="hero-ctas">
-            <a href="/cdn-cgi/l/email-protection#4d2b2c2f3f24372422633e38213d243724220d3d2221243922632439" class="btn btn-solid">Get in Touch</a>
+            <a href="mailto:fabrizio.sulpizio@polito.it" class="btn btn-solid">Get in Touch</a>
           </div>
         </div>
         <div class="hero-card">
-          <a href="#experience" class="card-stat card-stat-link">
+          <div class="card-stat">
             <div class="stat-val">4+</div>
             <div class="stat-key">Research positions at Politecnico di Torino</div>
-          </a>
-          <a href="#publications" class="card-stat card-stat-link">
+          </div>
+          <div class="card-stat">
             <div class="stat-val">2</div>
             <div class="stat-key">Peer-reviewed publications</div>
-          </a>
-          <a href="#skills" class="card-stat card-stat-link">
-            <div class="stat-val">XR · HCI</div>
-            <div class="stat-key">User Experience · Immersive Installations</div>
-          </a>
+          </div>
+          <div class="card-stat">
+            <div class="stat-val">XR · UX · HCI </div>
+            <div class="stat-key">Core research domains</div>
+          </div>
           <div class="contact-row">
-            <a href="/cdn-cgi/l/email-protection#e3858281918a998a8ccd90968f938a998a8ca3938c8f8a978ccd8a97" class="contact-pill">✉ polito.it</a>
-            <a href="/cdn-cgi/l/email-protection#a2c4c3c0d0cbd8cbcd8cd1d7ced2cbd8cbcd939ae2c5cfc3cbce8cc1cdcf" class="contact-pill">✉ gmail</a>
+            <a href="mailto:fabrizio.sulpizio@polito.it" class="contact-pill">✉ polito.it</a>
+            <a href="mailto:fabrizio.sulpizio18@gmail.com" class="contact-pill">✉ gmail</a>
             <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank" class="contact-pill">in LinkedIn</a>
 
           </div>
@@ -782,7 +736,7 @@
       <div class="footer-inner">
         <div class="footer-name">Fabrizio Sulpizio</div>
         <div class="footer-links">
-          <a href="/cdn-cgi/l/email-protection#6a0c0b08180310030544191f061a031003052a1a0506031e0544031e">Email</a>
+          <a href="mailto:fabrizio.sulpizio@polito.it">Email</a>
           <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
 
         </div>
@@ -790,8 +744,15 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     const nav = document.getElementById('navbar');
     window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
 
-    const reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => io.observe(r));
+  </script>
+</body>
+</html>
