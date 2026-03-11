@@ -1,201 +1,758 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Fabrizio Sulpizio - Extended reality designer & developer</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url('docs/assets/FlowerHD.png');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            color: #cccccc;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fabrizio Sulpizio — XR Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --surface: #ffffff;
+      --ink: #1a1814;
+      --ink-soft: #4a4640;
+      --ink-faint: #9a9590;
+      --accent: #1d4ed8;
+      --accent-warm: #c2410c;
+      --accent-light: rgba(29,78,216,0.07);
+      --border: rgba(26,24,20,0.1);
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Outfit', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
 
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: -1;
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-        header {
-            text-align: center;
-            padding: 50px 20px;
-            position: relative;
-            color: #f0f0f0;
-        }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.018;
+    }
 
-        h2 {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            color: #f0f0f0;
-        }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 20px 0;
+      transition: all 0.4s ease;
+    }
+    nav.scrolled {
+      background: rgba(247,245,242,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto; padding: 0 48px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-name {
+      font-family: var(--serif); font-size: 1rem; font-weight: 700;
+      color: var(--ink); letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-faint); text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--accent); }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
 
-        li {
-            margin-bottom: 5px;
-        }
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 0 80px;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 400px;
+      gap: 80px; align-items: center;
+    }
+    .hero-tag {
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0; animation: rise 0.7s 0.1s forwards;
+    }
+    .hero-tag::before {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--accent);
+    }
+    h1.hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3.4rem, 6vw, 6rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.02em; margin-bottom: 20px;
+      opacity: 0; animation: rise 0.7s 0.25s forwards;
+    }
+    .hero-role {
+      font-size: 1.1rem; font-weight: 300;
+      color: var(--ink-soft); margin-bottom: 28px;
+      opacity: 0; animation: rise 0.7s 0.4s forwards;
+    }
+    .hero-bio {
+      font-size: 1rem; line-height: 1.8; color: var(--ink-soft);
+      max-width: 520px; margin-bottom: 40px;
+      opacity: 0; animation: rise 0.7s 0.55s forwards;
+    }
+    .hero-ctas {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; animation: rise 0.7s 0.7s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px;
+      font-family: var(--sans); font-weight: 600; font-size: 0.88rem;
+      letter-spacing: 0.04em; text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    .btn-solid { background: var(--ink); color: #f7f5f2; }
+    .btn-solid:hover { background: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(29,78,216,0.25); }
+    .btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
 
-        section {
-            text-align: center;
-            background-color: transparent;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 20px;
-        }
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px;
+      position: relative;
+      opacity: 0; animation: rise 0.7s 0.5s forwards;
+    }
+    .hero-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(to right, var(--accent), var(--accent-warm));
+    }
+    .card-stat { padding: 18px 0; border-bottom: 1px solid var(--border); }
+    .card-stat:last-of-type { border-bottom: none; }
+    .card-stat:first-of-type { padding-top: 0; }
+    .stat-val {
+      font-family: var(--serif); font-size: 1.9rem; font-weight: 700;
+      line-height: 1; color: var(--accent); margin-bottom: 4px;
+    }
+    .stat-key {
+      font-family: var(--mono); font-size: 0.67rem;
+      letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-faint);
+    }
+    .contact-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .contact-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 12px;
+      background: var(--accent-light); color: var(--accent);
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.07em; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .contact-pill:hover { background: rgba(29,78,216,0.14); }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #999999;
-            background-color: rgba(17, 17, 17, 0.8);
-        }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            display: block;
-            margin: 0 auto;
-        }
+    section { padding: 100px 0; }
+    .section-header { margin-bottom: 56px; }
+    .section-tag {
+      font-family: var(--mono); font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-tag::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent); }
+    h2.section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;
+    }
+    .divider { width: 100%; height: 1px; background: var(--border); }
 
-        a {
-            color: #8e44ad;
-            text-decoration: none;
-        }
+    /* EXPERIENCE */
+    #experience { background: var(--surface); }
+    .exp-item {
+      display: grid; grid-template-columns: 200px 1fr;
+      gap: 48px; padding: 44px 0; border-top: 1px solid var(--border);
+    }
+    .exp-item:last-child { border-bottom: 1px solid var(--border); }
+    .exp-date {
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 6px;
+    }
+    .exp-org { font-size: 0.82rem; font-weight: 600; color: var(--accent); line-height: 1.4; }
+    .exp-location {
+      font-family: var(--mono); font-size: 0.67rem;
+      color: var(--ink-faint); margin-top: 6px; letter-spacing: 0.08em;
+    }
+    .exp-role {
+      font-family: var(--serif); font-size: 1.3rem;
+      font-weight: 700; margin-bottom: 10px; line-height: 1.2;
+    }
+    .exp-project {
+      display: inline-block; margin-bottom: 12px;
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; background: var(--accent-light); color: var(--accent);
+    }
+    .exp-desc { font-size: 0.95rem; line-height: 1.75; color: var(--ink-soft); max-width: 600px; }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    /* PUBLICATIONS */
+    #publications { background: var(--bg); }
+    .pub-list { display: flex; flex-direction: column; gap: 2px; }
+    .pub-item {
+      background: var(--surface); padding: 36px 40px;
+      border-left: 3px solid transparent;
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .pub-item:hover { border-left-color: var(--accent); transform: translateX(4px); }
+    .pub-venue {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent-warm); margin-bottom: 10px;
+    }
+    .pub-title {
+      font-family: var(--serif); font-size: 1.15rem;
+      font-weight: 700; line-height: 1.35; margin-bottom: 10px;
+    }
+    .pub-authors { font-size: 0.88rem; color: var(--ink-faint); }
+    .pub-year {
+      position: absolute; top: 36px; right: 40px;
+      font-family: var(--mono); font-size: 0.72rem;
+      color: var(--ink-faint); letter-spacing: 0.1em;
+    }
+    .pub-badge {
+      display: inline-flex; align-items: center;
+      margin-top: 12px; padding: 4px 10px;
+      background: rgba(194,65,12,0.08); color: var(--accent-warm);
+      font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em;
+    }
 
-        .iframe-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* Default 16:9 for mobile */
-            height: 0;
-            overflow: hidden;
-        }
+    /* PROJECTS */
+    #projects { background: var(--surface); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .project-card {
+      background: var(--bg); padding: 36px 32px; position: relative;
+      transition: background 0.3s, transform 0.3s; overflow: hidden;
+    }
+    .project-card:hover { background: var(--accent-light); transform: translateY(-4px); }
+    .project-card::after {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, var(--accent), var(--accent-warm));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-year {
+      font-family: var(--mono); font-size: 0.68rem;
+      letter-spacing: 0.12em; color: var(--ink-faint); margin-bottom: 14px;
+    }
+    .project-title {
+      font-family: var(--serif); font-size: 1.1rem;
+      font-weight: 700; line-height: 1.3; margin-bottom: 12px;
+    }
+    .project-desc { font-size: 0.88rem; line-height: 1.7; color: var(--ink-soft); }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .tag {
+      font-family: var(--mono); font-size: 0.63rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 8px; background: rgba(29,78,216,0.08); color: var(--accent);
+    }
 
-        .iframe-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
+    /* SKILLS */
+    #skills { background: var(--bg); }
+    .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+    .skill-group-title {
+      font-family: var(--mono); font-size: 0.72rem;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--ink-faint); margin-bottom: 18px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border);
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-pill {
+      font-size: 0.88rem; font-weight: 500;
+      padding: 8px 16px;
+      background: var(--surface); color: var(--ink);
+      border: 1px solid var(--border);
+      transition: all 0.25s;
+    }
+    .skill-pill:hover { background: var(--accent); color: white; border-color: var(--accent); transform: translateY(-2px); }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
+    /* EDUCATION */
+    #education { background: var(--surface); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+    .edu-card {
+      background: var(--bg); padding: 44px 40px;
+      position: relative; overflow: hidden;
+    }
+    .edu-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 3px; height: 100%;
+      background: linear-gradient(to bottom, var(--accent), var(--accent-warm));
+    }
+    .edu-degree {
+      font-family: var(--serif); font-size: 1.3rem;
+      font-weight: 700; line-height: 1.2; margin-bottom: 6px;
+    }
+    .edu-institution { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
+    .edu-date {
+      font-family: var(--mono); font-size: 0.7rem;
+      letter-spacing: 0.1em; color: var(--ink-faint); margin-bottom: 14px;
+    }
+    .edu-topics { font-size: 0.88rem; line-height: 1.7; color: var(--ink-soft); }
 
-            h2 {
-                font-size: 1.2em;
-            }
+    /* PORTFOLIO */
+    #portfolio { background: var(--ink); color: #f7f5f2; }
+    #portfolio .section-tag { color: #6ee7d4; }
+    #portfolio .section-tag::before { background: #6ee7d4; }
+    #portfolio h2.section-title { color: #f7f5f2; }
+    #portfolio p { color: #9a9a9a; font-size: 1rem; line-height: 1.7; margin-bottom: 32px; }
+    .portfolio-frame { border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+    .iframe-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
+    .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    @media (min-width: 769px) {
+      .iframe-container { width: 80%; margin: 0 auto; padding-bottom: 45%; }
+    }
 
-            section {
-                padding: 20px 10px;
-                margin: 10px;
-            }
+    /* CERTIFICATIONS */
+    #certifications { background: var(--bg); }
+    .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .cert-card { background: var(--surface); padding: 28px; transition: transform 0.3s; }
+    .cert-card:hover { transform: translateY(-3px); }
+    .cert-issuer {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .cert-name { font-weight: 600; font-size: 0.92rem; line-height: 1.4; margin-bottom: 6px; }
+    .cert-date { font-family: var(--mono); font-size: 0.68rem; color: var(--ink-faint); letter-spacing: 0.08em; }
 
-            p {
-                font-size: 1em;
-            }
+    /* FOOTER */
+    footer {
+      background: var(--ink); color: rgba(247,245,242,0.5);
+      padding: 48px 0; border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer-name { font-family: var(--serif); font-size: 1.1rem; color: rgba(247,245,242,0.8); }
+    footer a { color: rgba(247,245,242,0.5); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: #f7f5f2; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; }
 
-            .iframe-container {
-                padding-bottom: 100%; /* More height for readability */
-            }
-        }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
 
-        @media (min-width: 769px) {
-            .iframe-container {
-                width: 60%;
-                margin: 0 auto;
-                padding-bottom: 33.75%; /* 60% width with 16:9 ratio */
-            }
-        }
-
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .iframe-container {
-                padding-bottom: 42%; /* Slightly taller on tablets */
-            }
-        }
-    </style>
+    @media (max-width: 900px) {
+      .wrap { padding: 0 24px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .projects-grid, .certs-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 12px; }
+      .skills-grid, .edu-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      section { padding: 72px 0; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Fabrizio Sulpizio</h1>
-        <h2>Software Engineer - VR Designer & Developer</h2>
-    </header>
 
-    <section>
-        <h2>About Me</h2>
-        <p style="text-align:justify;">
-Hey there! I'm Fabrizio Sulpizio, an inquisitive computer engineer with a lot of passions and a heart that beats in binary.
-From the earliest lines of code I wrote, I found myself drawn to the incredible world of immersive technologies and their immense potential to create meaningful change. For me, it's more than just entertainment. I'm deeply inspired by how immersive experiences can drive behavioral change and help people overcome challenges, particularly in the field of eating disorders and related mental health issues. As a researcher in serious VR/AR game development, I focus on creating experiences that not only entertain but also support healing, growth, and education.
-I'm on a mission to turn my passion into a profession that doesn't just entertain but also empowers. I aim to be a storyteller who designs experiences that can transform lives and leave a positive impact on society.
-        </p>
-        <p>
-<b>Let the game begin!</b>
-        </p>
+  <nav id="navbar">
+    <div class="nav-inner">
+      <div class="nav-name">Fabrizio Sulpizio</div>
+      <div class="nav-links">
+        <a href="#experience">Experience</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#skills">Skills</a>
+      </div>
+    </div>
+  </nav>
 
-    </section>
-
-    <section>
-        <h2>Portfolio</h2>
-        <p>You can see my most recent projects here:</p>
-        <div class="iframe-container">
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQnjDn0jJQXSFy4s-IIWBsGydH_nwkZKeMUuNvlt5FHPa4ClKelE0Z-PTBD3Z4PBw/pubembed?start=false&loop=false&delayms=5000" allowfullscreen></iframe>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag">Extended Reality Research Assistant</div>
+          <h1 class="hero-name">Fabrizio<br/>Sulpizio</h1>
+          <p class="hero-role">Computer Engineer · XR Designer & Developer · Researcher</p>
+          <p class="hero-bio">
+            Inquisitive engineer passionate about the intersection of technology and human experience. I design and build Extended Reality systems — for healthcare, rehabilitation, culture, and the arts — that create meaningful, measurable change.
+          </p>
+          <div class="hero-ctas">
+            <a href="mailto:fabrizio.sulpizio@polito.it" class="btn btn-solid">Get in Touch</a>
+          </div>
         </div>
-    </section>
+        <div class="hero-card">
+          <div class="card-stat">
+            <div class="stat-val">4+</div>
+            <div class="stat-key">Research positions at Politecnico di Torino</div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-val">2</div>
+            <div class="stat-key">Peer-reviewed publications</div>
+          </div>
+          <div class="card-stat">
+            <div class="stat-val">XR · AI · HCI</div>
+            <div class="stat-key">Core research domains</div>
+          </div>
+          <div class="contact-row">
+            <a href="mailto:fabrizio.sulpizio@polito.it" class="contact-pill">✉ polito.it</a>
+            <a href="mailto:fabrizio.sulpizio18@gmail.com" class="contact-pill">✉ gmail</a>
+            <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank" class="contact-pill">in LinkedIn</a>
 
-    <section>
-        <h2>Hard skills</h2>
-        <ul>
-            <li>Virtual and Augmented Reality design & development</li>
-            <li>Game Design & Gamification</li>
-            <li>Scientific writing</li>
-            <li>Blender</li>
-            <li>Unity</li>
-            <li>C#</li>
-            <li>C</li>
-        </ul>
-    </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-        <h2>Soft skills</h2>
-        <ul>
-            <li>Conflict management</li>
-            <li>Time Management</li>
-            <li>Problem solving</li>
-            <li>Public speaking</li>
-            <li>Leadership</li>
-            <li>Empathy</li>
-        </ul>
-    </section>
+  <div class="divider"></div>
 
-    <footer>
-        <p>
-            Contact: fabrizio.sulpizio18@gmail.com |
-            <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
-        </p>
-    </footer>
-</body
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Work Experience</div>
+        <h2 class="section-title reveal reveal-d1">Building at the Frontier of XR</h2>
+      </div>
+
+      <div class="exp-item reveal">
+        <div>
+          <div class="exp-date">May 2025 – Ongoing</div>
+          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
+          <div class="exp-location">Turin, Italy</div>
+        </div>
+        <div>
+          <div class="exp-role">Research Assistant — XR and Arts</div>
+          <span class="exp-project">itARTS · SharedVR</span>
+          <p class="exp-desc">Development of an interactive installation where audience interactions are transformed in real time into music and visuals via hand-tracking, connecting physical and virtual spaces to encourage creativity, participation, and shared cultural experiences.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div>
+          <div class="exp-date">June 2025 – Ongoing</div>
+          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
+          <div class="exp-location">Turin, Italy</div>
+        </div>
+        <div>
+          <div class="exp-role">Research Assistant — Human-XR Interactions & Devices</div>
+          <span class="exp-project">PalHand.Q</span>
+          <p class="exp-desc">Design and development of two exergames to test and validate the usability of a novel patented haptic interaction device, evaluating fine motor engagement and user experience with the Department of Mechanical Engineering.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div>
+          <div class="exp-date">Jan – May 2025</div>
+          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
+          <div class="exp-location">Turin, Italy</div>
+        </div>
+        <div>
+          <div class="exp-role">Research Assistant — XR for Procedural Learning</div>
+          <span class="exp-project">Holo-BLSD</span>
+          <p class="exp-desc">Design and development of Augmented Reality scenarios for medical emergency training, enabling healthcare professionals to practice life-saving procedures in immersive, repeatable simulated environments.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div>
+          <div class="exp-date">Jan – Dec 2024</div>
+          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
+          <div class="exp-location">Turin, Italy</div>
+        </div>
+        <div>
+          <div class="exp-role">Research Assistant — VR Games & Gamification</div>
+          <span class="exp-project">ALPTECH · Italian Ministry of Business</span>
+          <p class="exp-desc">Design and development of two VR applications for a public exposition promoting the Italian region of Valle d'Aosta, combining game design with institutional cultural storytelling.</p>
+        </div>
+      </div>
+
+      <div class="exp-item reveal">
+        <div>
+          <div class="exp-date">Jul – Dec 2023</div>
+          <div class="exp-org">SynArea Consultants</div>
+          <div class="exp-location">Turin, Italy</div>
+        </div>
+        <div>
+          <div class="exp-role">Software Engineer — VR Game Design Intern</div>
+          <p class="exp-desc">Industry internship as part of the Master's thesis. Designed and developed a VR serious game in a professional software consultancy context, applying research findings to a production pipeline.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Research Output</div>
+        <h2 class="section-title reveal reveal-d1">Publications</h2>
+      </div>
+      <div class="pub-list">
+        <div class="pub-item reveal">
+          <div class="pub-venue">GRAPP / VISIGRAPP 2026 — Conference Proceedings</div>
+          <div class="pub-year">2026</div>
+          <div class="pub-title">User Experience of PAL-HAND.Q, a Pneumatic Haptic Device for Finger-Level Gaming Interaction</div>
+          <div class="pub-authors">Sulpizio, Fabrizio et al.</div>
+          <span class="pub-badge">★ In Press</span>
+        </div>
+        <div class="pub-item reveal reveal-d1">
+          <div class="pub-venue">IEEE Game, Entertainment and Media — GEM 2024</div>
+          <div class="pub-year">2024</div>
+          <div class="pub-title">Metarehab: Enhancing Parkinson's Disease Rehabilitation Through Gamified Virtual Reality — A Usability Study</div>
+          <div class="pub-authors">Sulpizio, Fabrizio et al.</div>
+          <span class="pub-badge">IEEE GEM 2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Selected Work</div>
+        <h2 class="section-title reveal reveal-d1">Projects & Courses</h2>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card reveal">
+          <div class="project-year">2025 · Remote</div>
+          <div class="project-title">Deep Tech Brain</div>
+          <p class="project-desc">EIT program at University of Barcelona covering Virtual Reality, Artificial Intelligence, Neuroimaging, and Neuromodulation.</p>
+          <div class="project-tags"><span class="tag">VR</span><span class="tag">AI</span><span class="tag">Neuroscience</span></div>
+        </div>
+        <div class="project-card reveal reveal-d1">
+          <div class="project-year">2023 · Turin</div>
+          <div class="project-title">Metaverse for Rehabilitation</div>
+          <p class="project-desc">Self-supervising, home-based gamified VR app for dual-task hands rehabilitation in patients with neurodegenerative syndromes.</p>
+          <div class="project-tags"><span class="tag">VR</span><span class="tag">Health</span><span class="tag">Unity</span></div>
+        </div>
+        <div class="project-card reveal reveal-d2">
+          <div class="project-year">2022 · Turin</div>
+          <div class="project-title">Aware</div>
+          <p class="project-desc">Exposure therapy VR desktop application for social anxiety, offering graduated, controlled immersive environments for therapeutic intervention.</p>
+          <div class="project-tags"><span class="tag">VR</span><span class="tag">Therapy</span><span class="tag">C#</span></div>
+        </div>
+        <div class="project-card reveal">
+          <div class="project-year">2022 · Lisbon</div>
+          <div class="project-title">STELLA — ULISSES 2022 🏆</div>
+          <p class="project-desc">Hackathon-winning interdisciplinary project: an electrospun nano-fiber system to capture microplastics from the seas. First place at UNITE University Alliance.</p>
+          <div class="project-tags"><span class="tag">Sustainability</span><span class="tag">Innovation</span></div>
+        </div>
+        <div class="project-card reveal reveal-d1">
+          <div class="project-year">2020 · Remote</div>
+          <div class="project-title">INSPIRED — Interstellar Pharmacy</div>
+          <p class="project-desc">UNITE University Alliance interdisciplinary project exploring pharmaceutical system design for Mars colonisation.</p>
+          <div class="project-tags"><span class="tag">Research</span><span class="tag">Interdisciplinary</span></div>
+        </div>
+        <div class="project-card reveal reveal-d2">
+          <div class="project-year">2021 · Katowice</div>
+          <div class="project-title">MYME</div>
+          <p class="project-desc">International workshop program in Poland focused on intercultural collaboration and professional soft-skill development.</p>
+          <div class="project-tags"><span class="tag">Leadership</span><span class="tag">International</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Portfolio</div>
+        <h2 class="section-title reveal reveal-d1">Recent Work</h2>
+        <p class="reveal reveal-d2">A selection of my most recent design and development projects, spanning VR applications, AR tools, serious games, and interactive experiences.</p>
+      </div>
+      <div class="portfolio-frame reveal">
+        <div class="iframe-container">
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQnjDn0jJQXSFy4s-IIWBsGydH_nwkZKeMUuNvlt5FHPa4ClKelE0Z-PTBD3Z4PBw/pubembed?start=false&loop=false&delayms=5000" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Expertise</div>
+        <h2 class="section-title reveal reveal-d1">Skills</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="reveal">
+          <div class="skill-group-title">Technical</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Virtual Reality</span>
+            <span class="skill-pill">Augmented Reality</span>
+            <span class="skill-pill">Unity 3D</span>
+            <span class="skill-pill">C#</span>
+            <span class="skill-pill">C</span>
+            <span class="skill-pill">Java</span>
+            <span class="skill-pill">Blender</span>
+            <span class="skill-pill">3D Modeling</span>
+            <span class="skill-pill">Computer Animation</span>
+            <span class="skill-pill">Git</span>
+          </div>
+        </div>
+        <div class="reveal reveal-d1">
+          <div class="skill-group-title">Research & Design</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Game Design</span>
+            <span class="skill-pill">Gamification</span>
+            <span class="skill-pill">Serious Games</span>
+            <span class="skill-pill">HCI / UX Research</span>
+            <span class="skill-pill">Scientific Writing</span>
+            <span class="skill-pill">Project Management</span>
+            <span class="skill-pill">User Testing</span>
+          </div>
+        </div>
+        <div class="reveal">
+          <div class="skill-group-title">Soft Skills</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Leadership</span>
+            <span class="skill-pill">Public Speaking</span>
+            <span class="skill-pill">Problem Solving</span>
+            <span class="skill-pill">Time Management</span>
+            <span class="skill-pill">Conflict Management</span>
+            <span class="skill-pill">Empathy</span>
+          </div>
+        </div>
+        <div class="reveal reveal-d1">
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-pills">
+            <span class="skill-pill">Italian — Native</span>
+            <span class="skill-pill">English — C1 (IELTS 7.5)</span>
+            <span class="skill-pill">French — B2 (DELF)</span>
+            <span class="skill-pill">German — Basic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Academic Background</div>
+        <h2 class="section-title reveal reveal-d1">Education</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu-card reveal">
+          <div class="edu-degree">M.Sc. in Computer Engineering</div>
+          <div style="font-family: var(--serif); font-style:italic; font-size:1rem; color: var(--ink-soft); margin-bottom:8px;">Graphics & Multimedia</div>
+          <div class="edu-institution">Politecnico di Torino</div>
+          <div class="edu-date">2022 – 2023 · Turin, Italy</div>
+          <div class="edu-topics">Virtual reality, game design, gamification, computer graphics, 3D modeling, human-computer interaction.</div>
+        </div>
+        <div class="edu-card reveal reveal-d1">
+          <div class="edu-degree">B.Sc. in Computer Engineering</div>
+          <div style="height:26px;"></div>
+          <div class="edu-institution">Politecnico di Torino</div>
+          <div class="edu-date">2018 – 2022 · Turin, Italy</div>
+          <div class="edu-topics">Software engineering, programming, computer architectures, mathematics, physics, algorithms.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="wrap">
+      <div class="section-header">
+        <div class="section-tag reveal">Credentials</div>
+        <h2 class="section-title reveal reveal-d1">Certifications & Training</h2>
+      </div>
+      <div class="certs-grid">
+        <div class="cert-card reveal">
+          <div class="cert-issuer">McKinsey.org</div>
+          <div class="cert-name">Forward Program</div>
+          <div class="cert-date">June 2025 · Remote</div>
+        </div>
+        <div class="cert-card reveal reveal-d1">
+          <div class="cert-issuer">Cambridge Assessment English</div>
+          <div class="cert-name">IELTS Academic — Band 7.5</div>
+          <div class="cert-date">June 2025 · Turin</div>
+        </div>
+        <div class="cert-card reveal reveal-d2">
+          <div class="cert-issuer">French Ministry of Education</div>
+          <div class="cert-name">DELF B2 — French Language</div>
+          <div class="cert-date">June 2017 · Sora</div>
+        </div>
+        <div class="cert-card reveal">
+          <div class="cert-issuer">Google / AcademyRapido</div>
+          <div class="cert-name">IT Support Professional & Cybersecurity</div>
+          <div class="cert-date">June 2022 · Remote</div>
+        </div>
+        <div class="cert-card reveal reveal-d1">
+          <div class="cert-issuer">Global Campus of Human Rights</div>
+          <div class="cert-name">Science and Human Rights</div>
+          <div class="cert-date">November 2022 · Remote</div>
+        </div>
+        <div class="cert-card reveal reveal-d2">
+          <div class="cert-issuer">EIT Deep Tech Talent</div>
+          <div class="cert-name">Deep Tech Brain — VR, AI & Neuroimaging</div>
+          <div class="cert-date">Jul – Sep 2025 · Remote</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <div class="footer-name">Fabrizio Sulpizio</div>
+        <div class="footer-links">
+          <a href="mailto:fabrizio.sulpizio@polito.it">Email</a>
+          <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
+
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => io.observe(r));
+  </script>
+</body>
+</html>
