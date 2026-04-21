@@ -208,6 +208,22 @@
     }
     .exp-desc { font-size: 0.95rem; line-height: 1.75; color: var(--ink-soft); max-width: 600px; }
 
+    .exp-sub {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .exp-sub-header {
+      display: flex; align-items: baseline; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 8px;
+    }
+    .exp-sub-header .exp-project { margin-bottom: 0; }
+    .exp-sub-tag {
+      font-family: var(--mono); font-size: 0.65rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+
     /* PUBLICATIONS */
     #publications { background: var(--bg); }
     .pub-list { display: flex; flex-direction: column; gap: 2px; }
@@ -417,7 +433,6 @@
             <a href="mailto:fabrizio.sulpizio@polito.it" class="contact-pill">✉ polito.it</a>
             <a href="mailto:fabrizio.sulpizio18@gmail.com" class="contact-pill">✉ gmail</a>
             <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank" class="contact-pill">in LinkedIn</a>
-
           </div>
         </div>
       </div>
@@ -425,6 +440,7 @@
   </section>
 
   <div class="divider"></div>
+
   <!-- PORTFOLIO -->
   <section id="portfolio">
     <div class="wrap">
@@ -442,6 +458,7 @@
   </section>
 
   <div class="divider"></div>
+
   <!-- EXPERIENCE -->
   <section id="experience">
     <div class="wrap">
@@ -450,58 +467,52 @@
         <h2 class="section-title reveal reveal-d1">Building at the Frontier of XR</h2>
       </div>
 
+      <!-- Unified Research Assistant block -->
       <div class="exp-item reveal">
         <div>
-          <div class="exp-date">May 2025 – Ongoing</div>
+          <div class="exp-date">2024 – Ongoing</div>
           <div class="exp-org">Politecnico di Torino · CG&V Group</div>
           <div class="exp-location">Turin, Italy</div>
         </div>
         <div>
-          <div class="exp-role">Research Assistant — XR and Arts</div>
-          <span class="exp-project">itARTS · SharedVR</span>
-          <p class="exp-desc">Development of an interactive installation where audience interactions are transformed in real time into music and visuals via hand-tracking, connecting physical and virtual spaces to encourage creativity, participation, and shared cultural experiences.</p>
+          <div class="exp-role">Research Assistant</div>
+
+          <div class="exp-sub">
+            <div class="exp-sub-header">
+              <span class="exp-project">itARTS · SharedVR</span>
+              <span class="exp-sub-tag">XR &amp; Arts</span>
+            </div>
+            <p class="exp-desc">Interactive installation transforming audience hand gestures into real-time music and visuals, bridging physical and virtual spaces for shared cultural experiences.</p>
+          </div>
+
+          <div class="exp-sub">
+            <div class="exp-sub-header">
+              <span class="exp-project">PalHand.Q</span>
+              <span class="exp-sub-tag">Human-XR Interactions</span>
+            </div>
+            <p class="exp-desc">Two exergames validating a novel patented haptic device, assessing fine motor engagement and UX in collaboration with Mechanical Engineering.</p>
+          </div>
+
+          <div class="exp-sub">
+            <div class="exp-sub-header">
+              <span class="exp-project">Holo-BLSD</span>
+              <span class="exp-sub-tag">XR for Procedural Learning</span>
+            </div>
+            <p class="exp-desc">AR scenarios for medical emergency training, letting healthcare professionals practice life-saving procedures in immersive, repeatable simulations.</p>
+          </div>
+
+          <div class="exp-sub">
+            <div class="exp-sub-header">
+              <span class="exp-project">ALPTECH · Italian Ministry of Business</span>
+              <span class="exp-sub-tag">VR Games &amp; Gamification</span>
+            </div>
+            <p class="exp-desc">Two VR applications for a public exposition promoting Valle d'Aosta, blending game design with institutional cultural storytelling.</p>
+          </div>
+
         </div>
       </div>
 
-      <div class="exp-item reveal">
-        <div>
-          <div class="exp-date">June 2025 – Ongoing</div>
-          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
-          <div class="exp-location">Turin, Italy</div>
-        </div>
-        <div>
-          <div class="exp-role">Research Assistant — Human-XR Interactions & Devices</div>
-          <span class="exp-project">PalHand.Q</span>
-          <p class="exp-desc">Design and development of two exergames to test and validate the usability of a novel patented haptic interaction device, evaluating fine motor engagement and user experience with the Department of Mechanical Engineering.</p>
-        </div>
-      </div>
-
-      <div class="exp-item reveal">
-        <div>
-          <div class="exp-date">Jan – May 2025</div>
-          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
-          <div class="exp-location">Turin, Italy</div>
-        </div>
-        <div>
-          <div class="exp-role">Research Assistant — XR for Procedural Learning</div>
-          <span class="exp-project">Holo-BLSD</span>
-          <p class="exp-desc">Design and development of Augmented Reality scenarios for medical emergency training, enabling healthcare professionals to practice life-saving procedures in immersive, repeatable simulated environments.</p>
-        </div>
-      </div>
-
-      <div class="exp-item reveal">
-        <div>
-          <div class="exp-date">Jan – Dec 2024</div>
-          <div class="exp-org">Politecnico di Torino · CG&V Group</div>
-          <div class="exp-location">Turin, Italy</div>
-        </div>
-        <div>
-          <div class="exp-role">Research Assistant — VR Games & Gamification</div>
-          <span class="exp-project">ALPTECH · Italian Ministry of Business</span>
-          <p class="exp-desc">Design and development of two VR applications for a public exposition promoting the Italian region of Valle d'Aosta, combining game design with institutional cultural storytelling.</p>
-        </div>
-      </div>
-
+      <!-- SynArea -->
       <div class="exp-item reveal">
         <div>
           <div class="exp-date">Jul – Dec 2023</div>
@@ -509,8 +520,13 @@
           <div class="exp-location">Turin, Italy</div>
         </div>
         <div>
-          <div class="exp-role">Software Engineer — VR Game Design Intern</div>
-          <p class="exp-desc">Industry internship as part of the Master's thesis. Designed and developed a VR serious game in a professional software consultancy context, applying research findings to a production pipeline.</p>
+          <div class="exp-role">Software Engineer Intern</div>
+          <div class="exp-sub" style="border-top: none; padding-top: 0; margin-top: 0;">
+            <div class="exp-sub-header">
+              <span class="exp-sub-tag">VR Game Design</span>
+            </div>
+            <p class="exp-desc">Designed and developed a VR serious game within a professional consultancy pipeline as part of the Master's thesis, applying research findings to a production environment.</p>
+          </div>
         </div>
       </div>
 
@@ -736,7 +752,6 @@
         <div class="footer-links">
           <a href="mailto:fabrizio.sulpizio@polito.it">Email</a>
           <a href="https://www.linkedin.com/in/fabriziosulpizio/" target="_blank">LinkedIn</a>
-
         </div>
       </div>
     </div>
